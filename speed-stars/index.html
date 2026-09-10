@@ -3,6 +3,20 @@
 <html>
 <head>
 	<script>
+// Intercept and block domain redirects to 1games or Poki
+const targetSet = Object.getOwnPropertyDescriptor(window.Location.prototype, 'href').set;
+Object.defineProperty(window.location, 'href', {
+set: function(url) {
+if (typeof url === 'string' && (url.includes('1games') || url.includes('poki'))) {
+console.warn('Blocked redirect attempt to:', url);
+return;
+}
+targetSet.call(window.location, url);
+}
+});
+</script>
+
+	<script>
 (function() {
 const SPEED_MULTIPLIER = 2.0; // Change to 1.5, 2.0, 3.0, etc.
 
